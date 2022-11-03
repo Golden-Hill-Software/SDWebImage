@@ -788,14 +788,14 @@ static NSString * _defaultDiskCacheDirectory;
 
 #if SD_UIKIT || SD_MAC
 - (void)applicationWillTerminate:(NSNotification *)notification {
-    // On iOS/macOS, the async opeartion to remove exipred data will be terminated quickly
-    // Try using the sync operation to ensure we reomve the exipred data
-    if (!self.config.shouldRemoveExpiredDataWhenTerminate) {
-        return;
-    }
-    dispatch_sync(self.ioQueue, ^{
-        [self.diskCache removeExpiredData];
-    });
+//    // On iOS/macOS, the async opeartion to remove exipred data will be terminated quickly
+//    // Try using the sync operation to ensure we reomve the exipred data
+//    if (!self.config.shouldRemoveExpiredDataWhenTerminate) {
+//        return;
+//    }
+//    dispatch_sync(self.ioQueue, ^{
+//        [self.diskCache removeExpiredData];
+//    });
 }
 #endif
 
@@ -803,26 +803,26 @@ static NSString * _defaultDiskCacheDirectory;
 
 #if SD_UIKIT
 - (void)applicationDidEnterBackground:(NSNotification *)notification {
-    if (!self.config.shouldRemoveExpiredDataWhenEnterBackground) {
-        return;
-    }
-    Class UIApplicationClass = NSClassFromString(@"UIApplication");
-    if(!UIApplicationClass || ![UIApplicationClass respondsToSelector:@selector(sharedApplication)]) {
-        return;
-    }
-    UIApplication *application = [UIApplication performSelector:@selector(sharedApplication)];
-    __block UIBackgroundTaskIdentifier bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
-        // Clean up any unfinished task business by marking where you
-        // stopped or ending the task outright.
-        [application endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    }];
-
-    // Start the long-running task and return immediately.
-    [self deleteOldFilesWithCompletionBlock:^{
-        [application endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    }];
+//    if (!self.config.shouldRemoveExpiredDataWhenEnterBackground) {
+//        return;
+//    }
+//    Class UIApplicationClass = NSClassFromString(@"UIApplication");
+//    if(!UIApplicationClass || ![UIApplicationClass respondsToSelector:@selector(sharedApplication)]) {
+//        return;
+//    }
+//    UIApplication *application = [UIApplication performSelector:@selector(sharedApplication)];
+//    __block UIBackgroundTaskIdentifier bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
+//        // Clean up any unfinished task business by marking where you
+//        // stopped or ending the task outright.
+//        [application endBackgroundTask:bgTask];
+//        bgTask = UIBackgroundTaskInvalid;
+//    }];
+//
+//    // Start the long-running task and return immediately.
+//    [self deleteOldFilesWithCompletionBlock:^{
+//        [application endBackgroundTask:bgTask];
+//        bgTask = UIBackgroundTaskInvalid;
+//    }];
 }
 #endif
 
