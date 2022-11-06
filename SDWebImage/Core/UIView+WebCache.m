@@ -312,11 +312,11 @@ const int64_t SDWebImageProgressUnitCountUnknown = 1LL;
                     transition.animations(view, image);
                 }
             } completion:^(BOOL finished) {
-                if (!view.sd_latestOperationKey || ![originalOperationKey isEqualToString:view.sd_latestOperationKey]) {
-                    return;
-                }
                 if (transition.completion) {
                     transition.completion(finished);
+                }
+                if (!view.sd_latestOperationKey || ![originalOperationKey isEqualToString:view.sd_latestOperationKey]) {
+                    return;
                 }
             }];
         }];
