@@ -293,12 +293,12 @@ const int64_t SDWebImageProgressUnitCountUnknown = 1LL;
 
 #if SD_UIKIT
         [UIView transitionWithView:view duration:0 options:0 animations:^{
-            if (!view.sd_latestOperationKey || ![originalOperationKey isEqualToString:view.sd_latestOperationKey]) {
-                return;
-            }
             // 0 duration to let UIKit render placeholder and prepares block
             if (transition.prepares) {
                 transition.prepares(view, image, imageData, cacheType, imageURL);
+            }
+            if (!view.sd_latestOperationKey || ![originalOperationKey isEqualToString:view.sd_latestOperationKey]) {
+                return;
             }
         } completion:^(BOOL tempFinished) {
             [UIView transitionWithView:view duration:transition.duration options:transition.animationOptions animations:^{
